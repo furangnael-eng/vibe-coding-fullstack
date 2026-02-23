@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html class="dark" lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vibe Coding | 게시글 목록</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d0df2",
+                        "background-dark": "#050505",
+                        "surface-dark": "#0d0d1a",
+                        "accent-blue": "#00d4ff"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(13, 13, 242, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(13, 13, 242, 0.1) 0%, rgba(5, 5, 5, 1) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-slate-100 antialiased overflow-x-hidden min-h-screen hero-gradient">
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-primary/10 bg-background-dark/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-primary p-1.5 rounded-lg">
+                    <span class="material-symbols-outlined text-white text-2xl">terminal</span>
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-100">Vibe<span
+                        class="text-primary">Coding</span></h1>
+            </div>
+            <nav class="hidden md:flex items-center gap-10">
+                <a class="text-sm font-medium text-slate-400 hover:text-primary transition-colors" href="/">Home</a>
+                <a class="text-sm font-medium text-primary" href="/posts">Posts</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="mb-12">
+            <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em] mb-4">Board</h2>
+            <h3 class="text-4xl md:text-5xl font-bold text-slate-100 leading-tight">Post List</h3>
+            <p class="text-slate-400 mt-4 max-w-xl">최신 기술 동향과 Vibe Coding의 소식을 확인하세요.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl overflow-hidden border border-primary/10 shadow-2xl">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-primary/10 border-b border-primary/20">
+                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">No</th>
+                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">Title</th>
+                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">Created At</th>
+                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">Views</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post : ${posts}" class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td class="p-6 text-slate-100 font-medium" th:text="${post.no}">1</td>
+                        <td class="p-6">
+                            <a href="#" class="text-slate-100 hover:text-primary transition-colors font-semibold"
+                                th:text="${post.title}">Post Title</a>
+                        </td>
+                        <td class="p-6 text-slate-400" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">
+                            2024-02-23</td>
+                        <td class="p-6">
+                            <span
+                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/20 text-primary">
+                                <span class="material-symbols-outlined text-xs">visibility</span>
+                                <span th:text="${post.views}">100</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-8 flex justify-end">
+            <button
+                class="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">edit</span>
+                Write Post
+            </button>
+        </div>
+    </main>
+
+    <footer class="bg-background-dark border-t border-white/5 pt-10 pb-10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-500 text-sm">© 2024 Vibe Coding Agency. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
