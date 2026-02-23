@@ -1,0 +1,4 @@
+# Minimal Spring Boot Configuration
+spring:
+  application:
+    name: vibeapp
