@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
@@ -18,8 +18,8 @@
                 extend: {
                     colors: {
                         "primary": "#0d0df2",
-                        "background-dark": "#050505",
-                        "surface-dark": "#0d0d1a",
+                        "background-light": "#f8fafc",
+                        "surface-light": "#ffffff",
                         "accent-blue": "#00d4ff"
                     },
                     fontFamily: {
@@ -35,29 +35,29 @@
         }
 
         .glass-card {
-            background: rgba(13, 13, 242, 0.03);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(13, 13, 242, 0.1);
         }
 
         .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, rgba(13, 13, 242, 0.1) 0%, rgba(5, 5, 5, 1) 100%);
+            background: radial-gradient(circle at 50% 10%, rgba(13, 13, 242, 0.05) 0%, rgba(248, 250, 252, 1) 100%);
         }
     </style>
 </head>
 
-<body class="bg-background-dark text-slate-100 antialiased overflow-x-hidden min-h-screen hero-gradient">
-    <header class="fixed top-0 left-0 right-0 z-50 border-b border-primary/10 bg-background-dark/80 backdrop-blur-md">
+<body class="bg-background-light text-slate-900 antialiased overflow-x-hidden min-h-screen hero-gradient">
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-primary/10 bg-white/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="bg-primary p-1.5 rounded-lg">
                     <span class="material-symbols-outlined text-white text-2xl">terminal</span>
                 </div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-100">Vibe<span
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Vibe<span
                         class="text-primary">Coding</span></h1>
             </div>
             <nav class="hidden md:flex items-center gap-10">
-                <a class="text-sm font-medium text-slate-400 hover:text-primary transition-colors" href="/">Home</a>
+                <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="/">Home</a>
                 <a class="text-sm font-medium text-primary" href="/posts">Posts</a>
             </nav>
         </div>
@@ -72,10 +72,10 @@
             </a>
             <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em] mb-4" th:text="|No. ${post.no}|">No. 1
             </h2>
-            <h3 class="text-4xl md:text-5xl font-bold text-slate-100 leading-tight mb-8" th:text="${post.title}">Post
+            <h3 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-8" th:text="${post.title}">Post
                 Title</h3>
 
-            <div class="flex flex-wrap items-center gap-6 py-6 border-y border-white/5 mb-12 text-sm text-slate-400">
+            <div class="flex flex-wrap items-center gap-6 py-6 border-y border-slate-200 mb-12 text-sm text-slate-500">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
                     <span th:text="|Created: ${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}|">2024-02-23
@@ -93,8 +93,8 @@
             </div>
         </div>
 
-        <div class="glass-card rounded-2xl p-8 md:p-12 border border-primary/10 shadow-2xl min-h-[400px]">
-            <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed text-lg" th:text="${post.content}">
+        <div class="glass-card rounded-2xl p-8 md:p-12 shadow-xl min-h-[400px]">
+            <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-lg" th:text="${post.content}">
                 Post content goes here...
             </div>
         </div>
@@ -102,14 +102,14 @@
         <div class="mt-12 flex justify-between items-center">
             <div class="flex gap-4">
                 <a th:href="@{/posts/{no}/edit(no=${post.no})}"
-                    class="bg-slate-800/50 hover:bg-slate-800 text-slate-100 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border border-slate-700 flex items-center gap-2">
+                    class="bg-white hover:bg-slate-50 text-slate-900 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border border-slate-200 shadow-sm flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm">edit</span>
                     Edit
                 </a>
                 <form th:action="@{/posts/{no}/delete(no=${post.no})}" method="post"
                     onsubmit="return confirm('정말로 이 게시글을 삭제하시겠습니까?');" class="inline">
                     <button type="submit"
-                        class="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border border-red-500/20 flex items-center gap-2">
+                        class="bg-red-50 hover:bg-red-100 text-red-600 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border border-red-100 shadow-sm flex items-center gap-2">
                         <span class="material-symbols-outlined text-sm">delete</span>
                         Delete
                     </button>
@@ -118,7 +118,7 @@
         </div>
     </main>
 
-    <footer class="bg-background-dark border-t border-white/5 pt-10 pb-10 mt-20">
+    <footer class="bg-white border-t border-slate-100 pt-10 pb-10 mt-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <p class="text-slate-500 text-sm">© 2024 Vibe Coding Agency. All rights reserved.</p>
         </div>

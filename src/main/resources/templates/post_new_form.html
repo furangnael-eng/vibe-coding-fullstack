@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
@@ -18,8 +18,8 @@
                 extend: {
                     colors: {
                         "primary": "#0d0df2",
-                        "background-dark": "#050505",
-                        "surface-dark": "#0d0d1a",
+                        "background-light": "#f8fafc",
+                        "surface-light": "#ffffff",
                         "accent-blue": "#00d4ff"
                     },
                     fontFamily: {
@@ -35,29 +35,29 @@
         }
 
         .glass-card {
-            background: rgba(13, 13, 242, 0.03);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(13, 13, 242, 0.1);
         }
 
         .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, rgba(13, 13, 242, 0.1) 0%, rgba(5, 5, 5, 1) 100%);
+            background: radial-gradient(circle at 50% 10%, rgba(13, 13, 242, 0.05) 0%, rgba(248, 250, 252, 1) 100%);
         }
     </style>
 </head>
 
-<body class="bg-background-dark text-slate-100 antialiased overflow-x-hidden min-h-screen hero-gradient">
-    <header class="fixed top-0 left-0 right-0 z-50 border-b border-primary/10 bg-background-dark/80 backdrop-blur-md">
+<body class="bg-background-light text-slate-900 antialiased overflow-x-hidden min-h-screen hero-gradient">
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-primary/10 bg-white/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="bg-primary p-1.5 rounded-lg">
                     <span class="material-symbols-outlined text-white text-2xl">terminal</span>
                 </div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-100">Vibe<span
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Vibe<span
                         class="text-primary">Coding</span></h1>
             </div>
             <nav class="hidden md:flex items-center gap-10">
-                <a class="text-sm font-medium text-slate-400 hover:text-primary transition-colors" href="/">Home</a>
+                <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="/">Home</a>
                 <a class="text-sm font-medium text-primary" href="/posts">Posts</a>
             </nav>
         </div>
@@ -66,17 +66,17 @@
     <main class="pt-32 pb-20 px-6 max-w-3xl mx-auto">
         <div class="mb-12">
             <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em] mb-4">New Post</h2>
-            <h3 class="text-4xl font-bold text-slate-100 leading-tight">새 게시글 작성</h3>
-            <p class="text-slate-400 mt-4">창의적인 아이디어를 Vibe Coding 커뮤니티와 공유하세요.</p>
+            <h3 class="text-4xl font-bold text-slate-900 leading-tight">새 게시글 작성</h3>
+            <p class="text-slate-600 mt-4">창의적인 아이디어를 Vibe Coding 커뮤니티와 공유하세요.</p>
         </div>
 
-        <div class="glass-card rounded-2xl p-8 md:p-10 border border-primary/10 shadow-2xl">
+        <div class="glass-card rounded-2xl p-8 md:p-10 shadow-xl">
             <form th:action="@{/posts/add}" method="post" class="space-y-8">
                 <div>
                     <label for="title"
                         class="block text-sm font-bold text-primary uppercase tracking-wider mb-2">제목</label>
                     <input type="text" id="title" name="title" required
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-slate-100 focus:outline-none focus:border-primary transition-colors"
+                        class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 focus:outline-none focus:border-primary transition-colors placeholder:text-slate-400"
                         placeholder="게시글 제목을 입력하세요">
                 </div>
 
@@ -84,18 +84,18 @@
                     <label for="content"
                         class="block text-sm font-bold text-primary uppercase tracking-wider mb-2">내용</label>
                     <textarea id="content" name="content" rows="10" required
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-slate-100 focus:outline-none focus:border-primary transition-colors resize-none"
+                        class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 focus:outline-none focus:border-primary transition-colors resize-none placeholder:text-slate-400"
                         placeholder="내용을 상세히 입력하세요"></textarea>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
                     <button type="submit"
-                        class="flex-1 bg-primary hover:bg-primary/80 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
                         <span class="material-symbols-outlined text-sm">check</span>
                         등록하기
                     </button>
                     <a href="/posts"
-                        class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 px-8 py-4 rounded-xl font-bold transition-all border border-white/10 flex items-center justify-center gap-2">
+                        class="flex-1 bg-white hover:bg-slate-50 text-slate-900 px-8 py-4 rounded-xl font-bold transition-all border border-slate-200 flex items-center justify-center gap-2">
                         <span class="material-symbols-outlined text-sm">close</span>
                         취소
                     </a>
@@ -104,7 +104,7 @@
         </div>
     </main>
 
-    <footer class="bg-background-dark border-t border-white/5 pt-10 pb-10 mt-20">
+    <footer class="bg-white border-t border-slate-100 pt-10 pb-10 mt-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <p class="text-slate-500 text-sm">© 2024 Vibe Coding Agency. All rights reserved.</p>
         </div>
