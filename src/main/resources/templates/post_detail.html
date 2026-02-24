@@ -106,11 +106,14 @@
                     <span class="material-symbols-outlined text-sm">edit</span>
                     Edit
                 </a>
-                <button
-                    class="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border border-red-500/20 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">delete</span>
-                    Delete
-                </button>
+                <form th:action="@{/posts/{no}/delete(no=${post.no})}" method="post"
+                    onsubmit="return confirm('정말로 이 게시글을 삭제하시겠습니까?');" class="inline">
+                    <button type="submit"
+                        class="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border border-red-500/20 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                        Delete
+                    </button>
+                </form>
             </div>
         </div>
     </main>

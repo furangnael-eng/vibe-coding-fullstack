@@ -59,4 +59,11 @@ public class PostController {
         postService.updatePost(no, title, content);
         return "redirect:/posts/" + no;
     }
+
+    @PostMapping("/posts/{no}/delete")
+    public String deletePost(@PathVariable("no") Long no) {
+        System.out.println("게시글 삭제 요청 수신: 번호=" + no);
+        postService.deletePost(no);
+        return "redirect:/posts";
+    }
 }
