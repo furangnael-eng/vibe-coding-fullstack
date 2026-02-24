@@ -49,7 +49,7 @@ public class Post {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.views = views;
-        this.tags = tags;
+        this.tags = tags != null ? tags : new ArrayList<>();
     }
 
     // Getters
@@ -112,6 +112,9 @@ public class Post {
 
     // 편의 메서드
     public void addTag(String tagName) {
+        if (this.tags == null) {
+            this.tags = new ArrayList<>();
+        }
         PostTag postTag = new PostTag(this, tagName);
         this.tags.add(postTag);
     }
