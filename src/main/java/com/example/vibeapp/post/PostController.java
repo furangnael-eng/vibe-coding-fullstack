@@ -40,16 +40,14 @@ public class PostController {
 
     @GetMapping("/posts/new")
     public String showPostNewForm(Model model) {
-        model.addAttribute("postCreateDto", new PostCreateDto());
+        model.addAttribute("postCreateDto", new PostCreateDto(null, null));
         return "post/post_new_form";
     }
 
     @GetMapping("/posts/{no}/edit")
     public String showPostEditForm(@PathVariable("no") Long no, Model model) {
         PostResponseDto post = postService.findPostByNo(no);
-        PostUpdateDto postUpdateDto = new PostUpdateDto();
-        postUpdateDto.setTitle(post.getTitle());
-        postUpdateDto.setContent(post.getContent());
+        PostUpdateDto postUpdateDto = new PostUpdateDto(post.title(), post.content());
 
         model.addAttribute("post", post);
         model.addAttribute("postUpdateDto", postUpdateDto);
