@@ -8,6 +8,9 @@
     - Java 25 (JDK 25)
     - Spring Boot 4.0.1
     - Gradle 9.3.1
+- **Database / ORM**:
+    - H2 Database (In-memory / Persistence)
+    - MyBatis (SQL Mapper)
 - **Frontend**:
     - Thymeleaf (View Engine)
     - Tailwind CSS (Styling)
@@ -23,8 +26,9 @@
 ## 4. 프로젝트 구조 (Project Structure - Feature-based)
 관심사 분리에 따른 계층형 구조가 아닌, 도메인/기능별로 패키지를 구성한다.
 - `com.example.vibeapp.home`: 홈 페이지 및 공통 기능
-- `com.example.vibeapp.post`: 게시글 등록, 상세, 목록(페이징), 수정, 삭제 기능 일체
+- `com.example.vibeapp.post`: 게시글 등록, 상세, 목록(페이징), 수정, 삭제 기능 일체 및 태그 관리
 - `resources/templates/[feature]`: 뷰 템플릿 또한 기능별 폴더로 분류 관리
+- `resources/mapper/[feature]`: MyBatis SQL 매퍼 파일 기능별 폴더 관리
 
 ## 5. 주요 기능 (Key Features)
 - **Clean Light UI**: Slate-50 배경과 Slate-900 텍스트를 활용한 고대비 라이트 모드 테마 적용.
@@ -33,6 +37,11 @@
     - 게시글 목록 페이징 처리 (페이지당 5개)
     - 게시글 수정 및 실제 데이터 반영
     - 게시물 삭제 기능 (확인 컨펌 포함)
+- **Interactive Tags**: 
+    - 쉼표(,)를 통해 복수 태그를 한 번에 입력하는 기능
+    - 게시글 상세 및 수정 페이지에서의 태그 시각화 및 관리
+- **Post Insights**: 
+    - 게시글 조회수(Views) 증가 및 표시 기능
 - **UX/UI Detail**: 
     - Glassmorphism 기반의 마이크로 애니메이션 및 스타일링
     - 반응형 디자인 적용
@@ -42,6 +51,10 @@
 - **Dependencies**: 
     - `spring-boot-starter-web`
     - `spring-boot-starter-thymeleaf`
+    - `spring-boot-starter-validation`
+    - `mybatis-spring-boot-starter`
+    - `com.h2database:h2`
 
 ## 7. 설정 파일 구성 (Configuration)
 - `src/main/resources/application.yml` 파일을 사용하여 모든 설정을 중앙 관리한다.
+- `schema.sql`, `data.sql`을 통한 데이터베이스 초기화 및 더미 데이터 제공.

@@ -2,12 +2,12 @@ package com.example.vibeapp.post;
 
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
     private final PostTagRepository postTagRepository;
@@ -17,6 +17,7 @@ public class PostService {
         this.postTagRepository = postTagRepository;
     }
 
+    @Transactional
     public PostResponseDto findPostByNo(Long no) {
         postRepository.incrementViews(no);
         Post post = postRepository.findById(no);
@@ -41,6 +42,7 @@ public class PostService {
         return (int) Math.ceil((double) totalPosts / size);
     }
 
+    @Transactional
     public void addPost(PostCreateDto createDto) {
         Post post = createDto.toEntity();
         post.setCreatedAt(LocalDateTime.now());
@@ -49,6 +51,7 @@ public class PostService {
         saveTags(post.getNo(), createDto.tags());
     }
 
+    @Transactional
     public void updatePost(Long no, PostUpdateDto updateDto) {
         Post post = postRepository.findById(no);
         if (post != null) {
@@ -73,6 +76,7 @@ public class PostService {
         }
     }
 
+    @Transactional
     public void deletePost(Long no) {
         postRepository.deleteById(no);
     }
