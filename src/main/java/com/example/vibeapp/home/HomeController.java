@@ -17,7 +17,7 @@ public class HomeController {
         model.addAttribute("message", "Thymeleaf view engine is successfully integrated!");
         model.addAttribute("currentTime",
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        return "home";
+        return "home/home";
     }
 
     @GetMapping("/api/hello")
