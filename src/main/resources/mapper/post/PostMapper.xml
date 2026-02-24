@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.vibeapp.post.PostRepository">
+
+    <insert id="save" parameterType="Post">
+        MERGE INTO POSTS
+        USING DUAL ON (NO = #{no})
+        WHEN MATCHED THEN
+            UPDATE SET 
+                TITLE = #{title},
+                CONTENT = #{content},
+                UPDATED_AT = #{updatedAt},
+                VIEWS = #{views}
+        WHEN NOT MATCHED THEN
+            INSERT (TITLE, CONTENT, CREATED_AT, UPDATED_AT, VIEWS)
+            VALUES (#{title}, #{content}, #{createdAt}, #{updatedAt}, #{views})
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="Post">
+        SELECT NO, TITLE, CONTENT, CREATED_AT, UPDATED_AT, VIEWS
+        FROM POSTS
+        WHERE NO = #{no}
+    </select>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM POSTS
+        WHERE NO = #{no}
+    </delete>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM POSTS
+    </select>
+
+    <select id="findPaged" resultType="Post">
+        SELECT NO, TITLE, CONTENT, CREATED_AT, UPDATED_AT, VIEWS
+        FROM POSTS
+        ORDER BY NO DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+</mapper>
