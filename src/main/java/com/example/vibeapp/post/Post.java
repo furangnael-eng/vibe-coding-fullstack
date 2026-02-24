@@ -32,7 +32,7 @@ public class Post {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    @Column(defaultValue = "0")
+    @Column
     private Integer views = 0;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
