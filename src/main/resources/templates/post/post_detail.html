@@ -75,7 +75,7 @@
             <h3 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-8" th:text="${post.title}">Post
                 Title</h3>
 
-            <div class="flex flex-wrap items-center gap-6 py-6 border-y border-slate-200 mb-12 text-sm text-slate-500">
+            <div class="flex flex-wrap items-center gap-6 py-6 border-y border-slate-200 mb-8 text-sm text-slate-500">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
                     <span th:text="|Created: ${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}|">2024-02-23
@@ -90,6 +90,12 @@
                     <span class="material-symbols-outlined text-sm text-primary">visibility</span>
                     <span th:text="|Views: ${post.views}|">123</span>
                 </div>
+            </div>
+
+            <div th:if="${post.tags != null and !#lists.isEmpty(post.tags)}" class="flex flex-wrap gap-2 mb-12">
+                <span th:each="tag : ${post.tags}"
+                    class="px-3 py-1 bg-primary/5 text-primary text-xs font-bold rounded-full border border-primary/10 transition-colors hover:bg-primary hover:text-white cursor-default"
+                    th:text="|#${tag}|">#tag</span>
             </div>
         </div>
 

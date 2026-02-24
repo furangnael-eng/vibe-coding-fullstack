@@ -1,6 +1,7 @@
 package com.example.vibeapp.post;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Post {
     private Long no;
@@ -9,15 +10,20 @@ public class Post {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer views;
+    private List<String> tags;
+
+    public Post() {
+    }
 
     public Post(Long no, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt,
-            Integer views) {
+            Integer views, List<String> tags) {
         this.no = no;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.views = views;
+        this.tags = tags;
     }
 
     // Getters
@@ -45,6 +51,10 @@ public class Post {
         return views;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
     // Setters
     public void setNo(Long no) {
         this.no = no;
@@ -68,5 +78,9 @@ public class Post {
 
     public void setViews(Integer views) {
         this.views = views;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

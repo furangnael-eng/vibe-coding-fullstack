@@ -1,6 +1,7 @@
 package com.example.vibeapp.post;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record PostResponseDto(
         Long no,
@@ -8,7 +9,8 @@ public record PostResponseDto(
         String content,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Integer views) {
+        Integer views,
+        List<String> tags) {
     public static PostResponseDto from(Post post) {
         if (post == null)
             return null;
@@ -18,6 +20,7 @@ public record PostResponseDto(
                 post.getContent(),
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
-                post.getViews());
+                post.getViews(),
+                post.getTags());
     }
 }

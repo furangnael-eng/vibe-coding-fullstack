@@ -40,14 +40,15 @@ public class PostController {
 
     @GetMapping("/posts/new")
     public String showPostNewForm(Model model) {
-        model.addAttribute("postCreateDto", new PostCreateDto(null, null));
+        model.addAttribute("postCreateDto", new PostCreateDto(null, null, null));
         return "post/post_new_form";
     }
 
     @GetMapping("/posts/{no}/edit")
     public String showPostEditForm(@PathVariable("no") Long no, Model model) {
         PostResponseDto post = postService.findPostByNo(no);
-        PostUpdateDto postUpdateDto = new PostUpdateDto(post.title(), post.content());
+        String tagsString = post.tags() != null ? String.join(", ", post.tags()) : "";
+        PostUpdateDto postUpdateDto = new PostUpdateDto(post.title(), post.content(), tagsString);
 
         model.addAttribute("post", post);
         model.addAttribute("postUpdateDto", postUpdateDto);
@@ -67,7 +68,7 @@ public class PostController {
     public String savePost(@PathVariable("no") Long no, @Valid PostUpdateDto updateDto, BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("post", postService.findPostByNo(no)); // 기존 정보 유지 (보여주기용)
+            model.addAttribute("post", postService.findPostByNo(no));
             return "post/post_edit_form";
         }
         postService.updatePost(no, updateDto);
@@ -76,7 +77,6 @@ public class PostController {
 
     @PostMapping("/posts/{no}/delete")
     public String deletePost(@PathVariable("no") Long no) {
-        System.out.println("게시글 삭제 요청 수신: 번호=" + no);
         postService.deletePost(no);
         return "redirect:/posts";
     }
