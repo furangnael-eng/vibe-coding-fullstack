@@ -14,6 +14,11 @@ public record PostResponseDto(
     public static PostResponseDto from(Post post) {
         if (post == null)
             return null;
+
+        List<String> tagNames = post.getTags().stream()
+                .map(PostTag::getTagName)
+                .toList();
+
         return new PostResponseDto(
                 post.getNo(),
                 post.getTitle(),
@@ -21,6 +26,6 @@ public record PostResponseDto(
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 post.getViews(),
-                post.getTags());
+                tagNames);
     }
 }
