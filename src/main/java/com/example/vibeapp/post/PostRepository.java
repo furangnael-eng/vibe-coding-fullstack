@@ -16,5 +16,7 @@ public interface PostRepository {
 
     int countAll();
 
+    void incrementViews(Long no);
+
     List<Post> findPaged(@Param("offset") int offset, @Param("limit") int limit);
 }

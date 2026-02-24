@@ -41,4 +41,10 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <update id="incrementViews" parameterType="long">
+        UPDATE POSTS
+        SET VIEWS = VIEWS + 1
+        WHERE NO = #{no}
+    </update>
+
 </mapper>

@@ -14,6 +14,7 @@ public class PostService {
     }
 
     public PostResponseDto findPostByNo(Long no) {
+        postRepository.incrementViews(no);
         Post post = postRepository.findById(no);
         return PostResponseDto.from(post);
     }
@@ -43,8 +44,7 @@ public class PostService {
             post.setTitle(updateDto.title());
             post.setContent(updateDto.content());
             post.setUpdatedAt(LocalDateTime.now());
-            postRepository.save(post); // MyBatis 연동 시 dirty checking이 안되므로 명시적 호출 (save를 insert/update 겸용으로 보거나 update
-                                       // 추가 필요)
+            postRepository.save(post);
         }
     }
 
