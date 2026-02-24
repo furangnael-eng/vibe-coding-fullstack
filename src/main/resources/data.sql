@@ -1,0 +1,10 @@
+INSERT INTO posts (title, content, created_at, views) VALUES ('첫 번째 게시글', 'H2 데이터베이스와 MyBatis 연동 테스트입니다.', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('두 번째 게시글', '가서 H2 콘솔에서 데이터를 확인해보세요.', CURRENT_TIMESTAMP, 10);
+INSERT INTO posts (title, content, created_at, views) VALUES ('세 번째 게시글', 'MyBatis SQL Mapper를 통해 조회될 예정입니다.', CURRENT_TIMESTAMP, 5);
+INSERT INTO posts (title, content, created_at, views) VALUES ('네 번째 게시글', '페이징 테스트를 위한 데이터 1', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('다섯 번째 게시글', '페이징 테스트를 위한 데이터 2', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('여섯 번째 게시글', '페이징 테스트를 위한 데이터 3', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('일곱 번째 게시글', '페이징 테스트를 위한 데이터 4', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('여덟 번째 게시글', '페이징 테스트를 위한 데이터 5', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('아홉 번째 게시글', '페이징 테스트를 위한 데이터 6', CURRENT_TIMESTAMP, 0);
+INSERT INTO posts (title, content, created_at, views) VALUES ('열 번째 게시글', '마지막 초기 데이터입니다.', CURRENT_TIMESTAMP, 0);
