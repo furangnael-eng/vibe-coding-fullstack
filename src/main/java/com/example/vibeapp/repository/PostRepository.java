@@ -48,4 +48,16 @@ public class PostRepository {
     public void deleteById(Long no) {
         posts.removeIf(post -> post.getNo().equals(no));
     }
+
+    public int countAll() {
+        return posts.size();
+    }
+
+    public List<Post> findPaged(int offset, int limit) {
+        int toIndex = Math.min(offset + limit, posts.size());
+        if (offset >= posts.size()) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(posts.subList(offset, toIndex));
+    }
 }

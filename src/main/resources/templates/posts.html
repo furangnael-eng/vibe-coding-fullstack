@@ -102,6 +102,27 @@
             </table>
         </div>
 
+        <!-- Pagination -->
+        <div th:if="${totalPages > 0}" class="mt-12 flex justify-center items-center gap-2">
+            <a th:href="@{/posts(page=${currentPage - 1})}" th:if="${currentPage > 1}"
+                class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800/50 text-slate-400 hover:bg-slate-700 hover:text-white transition-all">
+                <span class="material-symbols-outlined text-lg">chevron_left</span>
+            </a>
+
+            <div class="flex items-center gap-2">
+                <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:href="@{/posts(page=${pageNum})}"
+                    th:text="${pageNum}"
+                    th:classappend="${pageNum == currentPage} ? 'bg-primary text-white border-primary shadow-[0_0_15px_rgba(13,13,242,0.3)]' : 'border-slate-700 bg-slate-800/50 text-slate-400 hover:bg-slate-700 hover:text-white'"
+                    class="w-10 h-10 flex items-center justify-center rounded-lg border font-bold transition-all">
+                </a>
+            </div>
+
+            <a th:href="@{/posts(page=${currentPage + 1})}" th:if="${currentPage < totalPages}"
+                class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800/50 text-slate-400 hover:bg-slate-700 hover:text-white transition-all">
+                <span class="material-symbols-outlined text-lg">chevron_right</span>
+            </a>
+        </div>
+
         <div class="mt-8 flex justify-end">
             <a href="/posts/new"
                 class="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-2">

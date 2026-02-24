@@ -23,6 +23,16 @@ public class PostService {
         return postRepository.findById(no);
     }
 
+    public List<Post> getPagedPosts(int page, int size) {
+        int offset = (page - 1) * size;
+        return postRepository.findPaged(offset, size);
+    }
+
+    public int getTotalPages(int size) {
+        int totalPosts = postRepository.countAll();
+        return (int) Math.ceil((double) totalPosts / size);
+    }
+
     public void addPost(String title, String content) {
         Post post = new Post(
                 null,
