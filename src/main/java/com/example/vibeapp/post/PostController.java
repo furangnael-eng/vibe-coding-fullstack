@@ -60,7 +60,12 @@ public class PostController {
         if (bindingResult.hasErrors()) {
             return "post/post_new_form";
         }
-        postService.addPost(createDto);
+        try {
+            postService.addPost(createDto);
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("tags", "error.tags", e.getMessage());
+            return "post/post_new_form";
+        }
         return "redirect:/posts";
     }
 
@@ -71,7 +76,13 @@ public class PostController {
             model.addAttribute("post", postService.findPostByNo(no));
             return "post/post_edit_form";
         }
-        postService.updatePost(no, updateDto);
+        try {
+            postService.updatePost(no, updateDto);
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("tags", "error.tags", e.getMessage());
+            model.addAttribute("post", postService.findPostByNo(no));
+            return "post/post_edit_form";
+        }
         return "redirect:/posts/" + no;
     }
 

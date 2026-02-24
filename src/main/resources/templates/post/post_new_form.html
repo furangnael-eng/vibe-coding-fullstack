@@ -98,6 +98,8 @@
                     <input type="text" id="tags" th:field="*{tags}"
                         class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 focus:outline-none focus:border-primary transition-colors placeholder:text-slate-400"
                         placeholder="태그를 쉼표(,)로 구분하여 입력하세요 (예: Spring, Java)">
+                    <p th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}"
+                        class="text-rose-500 text-xs mt-2 font-bold"></p>
                     <p class="text-slate-400 text-[10px] mt-2 font-medium tracking-tight uppercase">쉼표를 사용하여 여러 개의 태그를
                         추가할 수 있습니다.</p>
                 </div>
