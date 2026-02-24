@@ -13,13 +13,17 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Post findPostByNo(Long no) {
-        return postRepository.findById(no);
+    public PostResponseDto findPostByNo(Long no) {
+        Post post = postRepository.findById(no);
+        return PostResponseDto.from(post);
     }
 
-    public List<Post> findPagedPosts(int page, int size) {
+    public List<PostListDto> findPagedPosts(int page, int size) {
         int offset = (page - 1) * size;
-        return postRepository.findPaged(offset, size);
+        List<Post> posts = postRepository.findPaged(offset, size);
+        return posts.stream()
+                .map(PostListDto::from)
+                .toList();
     }
 
     public int getTotalPages(int size) {
@@ -27,22 +31,17 @@ public class PostService {
         return (int) Math.ceil((double) totalPosts / size);
     }
 
-    public void addPost(String title, String content) {
-        Post post = new Post(
-                null,
-                title,
-                content,
-                LocalDateTime.now(),
-                null,
-                0);
+    public void addPost(PostCreateDto createDto) {
+        Post post = createDto.toEntity();
+        post.setCreatedAt(LocalDateTime.now());
         postRepository.save(post);
     }
 
-    public void updatePost(Long no, String title, String content) {
+    public void updatePost(Long no, PostUpdateDto updateDto) {
         Post post = postRepository.findById(no);
         if (post != null) {
-            post.setTitle(title);
-            post.setContent(content);
+            post.setTitle(updateDto.getTitle());
+            post.setContent(updateDto.getContent());
             post.setUpdatedAt(LocalDateTime.now());
         }
     }

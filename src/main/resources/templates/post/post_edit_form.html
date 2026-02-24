@@ -70,7 +70,8 @@
         </div>
 
         <div class="glass-card rounded-2xl p-8 md:p-12 shadow-xl">
-            <form id="editForm" th:action="@{/posts/{no}/save(no=${post.no})}" method="post" class="space-y-8">
+            <form id="editForm" th:action="@{/posts/{no}/save(no=${post.no})}" th:object="${postUpdateDto}"
+                method="post" class="space-y-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- 번호 (Read-only) -->
                     <div class="space-y-3">
@@ -106,15 +107,19 @@
                 <!-- 제목 -->
                 <div class="space-y-3">
                     <label class="text-sm font-bold text-slate-900 uppercase tracking-wider block">제목</label>
-                    <input type="text" th:value="${post.title}" name="title" required
+                    <input type="text" th:field="*{title}"
                         class="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-xl font-bold" />
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                        class="text-rose-500 text-xs mt-1 font-bold"></p>
                 </div>
 
                 <!-- 내용 -->
                 <div class="space-y-3">
                     <label class="text-sm font-bold text-slate-900 uppercase tracking-wider block">내용</label>
-                    <textarea rows="10" name="content" th:text="${post.content}" required
+                    <textarea rows="10" th:field="*{content}"
                         class="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none leading-relaxed"></textarea>
+                    <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                        class="text-rose-500 text-xs mt-1 font-bold"></p>
                 </div>
 
                 <!-- 버튼 그룹 -->

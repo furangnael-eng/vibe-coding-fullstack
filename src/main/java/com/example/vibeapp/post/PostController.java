@@ -1,5 +1,7 @@
 package com.example.vibeapp.post;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,7 @@ public class PostController {
     @GetMapping("/posts")
     public String getPostList(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         int pageSize = 5;
-        List<Post> posts = postService.findPagedPosts(page, pageSize);
+        List<PostListDto> posts = postService.findPagedPosts(page, pageSize);
         int totalPages = postService.getTotalPages(pageSize);
 
         model.addAttribute("posts", posts);
@@ -31,35 +33,46 @@ public class PostController {
 
     @GetMapping("/posts/{no}")
     public String getPostDetail(@PathVariable("no") Long no, Model model) {
-        Post post = postService.findPostByNo(no);
+        PostResponseDto post = postService.findPostByNo(no);
         model.addAttribute("post", post);
         return "post/post_detail";
     }
 
     @GetMapping("/posts/new")
-    public String showPostNewForm() {
+    public String showPostNewForm(Model model) {
+        model.addAttribute("postCreateDto", new PostCreateDto());
         return "post/post_new_form";
     }
 
     @GetMapping("/posts/{no}/edit")
     public String showPostEditForm(@PathVariable("no") Long no, Model model) {
-        Post post = postService.findPostByNo(no);
+        PostResponseDto post = postService.findPostByNo(no);
+        PostUpdateDto postUpdateDto = new PostUpdateDto();
+        postUpdateDto.setTitle(post.getTitle());
+        postUpdateDto.setContent(post.getContent());
+
         model.addAttribute("post", post);
+        model.addAttribute("postUpdateDto", postUpdateDto);
         return "post/post_edit_form";
     }
 
     @PostMapping("/posts/add")
-    public String addPost(@RequestParam("title") String title, @RequestParam("content") String content) {
-        System.out.println("새 게시글 등록 요청 수신: 제목=" + title + ", 내용=" + content);
-        postService.addPost(title, content);
+    public String addPost(@Valid PostCreateDto createDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "post/post_new_form";
+        }
+        postService.addPost(createDto);
         return "redirect:/posts";
     }
 
     @PostMapping("/posts/{no}/save")
-    public String savePost(@PathVariable("no") Long no, @RequestParam("title") String title,
-            @RequestParam("content") String content) {
-        System.out.println("게시글 수정 요청 수신: 번호=" + no + ", 제목=" + title + ", 내용=" + content);
-        postService.updatePost(no, title, content);
+    public String savePost(@PathVariable("no") Long no, @Valid PostUpdateDto updateDto, BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("post", postService.findPostByNo(no)); // 기존 정보 유지 (보여주기용)
+            return "post/post_edit_form";
+        }
+        postService.updatePost(no, updateDto);
         return "redirect:/posts/" + no;
     }
 

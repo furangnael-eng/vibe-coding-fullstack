@@ -71,21 +71,25 @@
         </div>
 
         <div class="glass-card rounded-2xl p-8 md:p-10 shadow-xl">
-            <form th:action="@{/posts/add}" method="post" class="space-y-8">
+            <form th:action="@{/posts/add}" th:object="${postCreateDto}" method="post" class="space-y-8">
                 <div>
                     <label for="title"
                         class="block text-sm font-bold text-primary uppercase tracking-wider mb-2">제목</label>
-                    <input type="text" id="title" name="title" required
+                    <input type="text" id="title" th:field="*{title}"
                         class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 focus:outline-none focus:border-primary transition-colors placeholder:text-slate-400"
                         placeholder="게시글 제목을 입력하세요">
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                        class="text-rose-500 text-xs mt-2 font-bold"></p>
                 </div>
 
                 <div>
                     <label for="content"
                         class="block text-sm font-bold text-primary uppercase tracking-wider mb-2">내용</label>
-                    <textarea id="content" name="content" rows="10" required
+                    <textarea id="content" th:field="*{content}" rows="10"
                         class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 focus:outline-none focus:border-primary transition-colors resize-none placeholder:text-slate-400"
                         placeholder="내용을 상세히 입력하세요"></textarea>
+                    <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                        class="text-rose-500 text-xs mt-2 font-bold"></p>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
