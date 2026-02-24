@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,9 +17,11 @@ public class PostService {
 
     @Transactional
     public PostResponseDto findPostByNo(Long no) {
-        // 조회수 증가: 영속 상태의 엔티티 값을 변경하면 트랜잭션 종료 시 Dirty Checking으로 DB에 반영됨
         postRepository.incrementViews(no);
         Post post = postRepository.findById(no);
+        if (post == null) {
+            throw new NoSuchElementException("게시글을 찾을 수 없습니다. (no=" + no + ")");
+        }
         return PostResponseDto.from(post);
     }
 

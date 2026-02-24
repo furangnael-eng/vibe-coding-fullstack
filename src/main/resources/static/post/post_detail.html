@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 상세</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --surface2: #22263a;
+            --accent: #6c63ff;
+            --text: #e2e8f0;
+            --text-muted: #64748b;
+            --border: #2d3150;
+            --danger: #f87171;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header a {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        header a:hover {
+            color: var(--accent);
+        }
+
+        header h1 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+
+        .post-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .post-content {
+            font-size: 0.975rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            color: #cbd5e1;
+            min-height: 120px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .tag {
+            background: rgba(108, 99, 255, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-danger {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(248, 113, 113, 0.2);
+        }
+
+        #skeleton {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .4
+            }
+        }
+
+        .sk {
+            background: var(--surface2);
+            border-radius: 6px;
+            height: 16px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/post/posts.html" id="back-btn">← 목록으로</a>
+        <h1>📝 게시판</h1>
+    </header>
+    <main>
+        <div class="card">
+            <div id="skeleton">
+                <div class="sk" style="width:60%;height:28px"></div>
+                <div class="sk" style="width:40%;height:12px;margin-top:16px"></div>
+                <div class="sk" style="width:100%;height:120px;margin-top:24px"></div>
+            </div>
+            <div id="post-content" style="display:none">
+                <h2 class="post-title" id="title"></h2>
+                <div class="post-meta">
+                    <span>📅 <span id="created-at"></span></span>
+                    <span>✏️ <span id="updated-at"></span></span>
+                    <span>👁 <span id="views"></span> 조회</span>
+                </div>
+                <p class="post-content" id="content"></p>
+                <div id="tags" class="tags"></div>
+            </div>
+            <div class="actions">
+                <a id="edit-btn" href="#" class="btn btn-secondary">✏️ 수정</a>
+                <button id="delete-btn" class="btn btn-danger">🗑 삭제</button>
+            </div>
+        </div>
+    </main>
+    <script src="/post/post_detail.js"></script>
+</body>
+
+</html>

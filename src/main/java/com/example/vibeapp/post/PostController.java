@@ -1,17 +1,16 @@
 package com.example.vibeapp.post;
 
 import jakarta.validation.Valid;
-import org.springframework.validation.BindingResult;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
+@RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
 
@@ -19,92 +18,47 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/posts")
-    public String getPostList(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-        int pageSize = 5;
-        List<PostListDto> posts = postService.findPagedPosts(page, pageSize);
-        int totalPages = postService.getTotalPages(pageSize);
+    // 게시글 목록 조회: GET /api/posts?page=1&size=5
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getPostList(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size) {
+        List<PostListDto> posts = postService.findPagedPosts(page, size);
+        int totalPages = postService.getTotalPages(size);
 
-        model.addAttribute("posts", posts);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        return "post/posts";
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("posts", posts);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/posts/{no}")
-    public String getPostDetail(@PathVariable("no") Long no, Model model) {
+    // 게시글 상세 조회: GET /api/posts/{no}
+    @GetMapping("/{no}")
+    public ResponseEntity<PostResponseDto> getPostDetail(@PathVariable Long no) {
         PostResponseDto post = postService.findPostByNo(no);
-        model.addAttribute("post", post);
-        return "post/post_detail";
+        return ResponseEntity.ok(post);
     }
 
-    @GetMapping("/posts/new")
-    public String showPostNewForm(Model model) {
-        model.addAttribute("postCreateDto", new PostCreateDto(null, null, null));
-        return "post/post_new_form";
+    // 새 게시글 등록: POST /api/posts
+    @PostMapping
+    public ResponseEntity<Void> addPost(@Valid @RequestBody PostCreateDto createDto) {
+        postService.addPost(createDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/posts/{no}/edit")
-    public String showPostEditForm(@PathVariable("no") Long no, Model model) {
-        PostResponseDto post = postService.findPostByNo(no);
-        String tagsString = post.tags() != null ? String.join(", ", post.tags()) : "";
-        PostUpdateDto postUpdateDto = new PostUpdateDto(post.title(), post.content(), tagsString);
-
-        model.addAttribute("post", post);
-        model.addAttribute("postUpdateDto", postUpdateDto);
-        return "post/post_edit_form";
+    // 게시글 수정: PATCH /api/posts/{no}
+    @PatchMapping("/{no}")
+    public ResponseEntity<Void> updatePost(@PathVariable Long no,
+            @Valid @RequestBody PostUpdateDto updateDto) {
+        postService.updatePost(no, updateDto);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/posts/add")
-    public String addPost(@Valid PostCreateDto createDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "post/post_new_form";
-        }
-        try {
-            postService.addPost(createDto);
-        } catch (RuntimeException e) {
-            String message = e.getMessage();
-            if (message != null && (message.contains("JdbcSQLIntegrityConstraintViolationException")
-                    || message.contains("Value too long") || message.contains("50자 이내"))) {
-                message = "태그는 50자 이내로 입력해주세요.";
-            } else if (message == null || message.isBlank() || message.contains("MyBatisSystemException")
-                    || message.contains("PersistenceException")) {
-                message = "게시글 저장 중 오류가 발생했습니다.";
-            }
-            bindingResult.rejectValue("tags", "error.tags", message);
-            return "post/post_new_form";
-        }
-        return "redirect:/posts";
-    }
-
-    @PostMapping("/posts/{no}/save")
-    public String savePost(@PathVariable("no") Long no, @Valid PostUpdateDto updateDto, BindingResult bindingResult,
-            Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("post", postService.findPostByNo(no));
-            return "post/post_edit_form";
-        }
-        try {
-            postService.updatePost(no, updateDto);
-        } catch (RuntimeException e) {
-            String message = e.getMessage();
-            if (message != null && (message.contains("JdbcSQLIntegrityConstraintViolationException")
-                    || message.contains("Value too long") || message.contains("50자 이내"))) {
-                message = "태그는 50자 이내로 입력해주세요.";
-            } else if (message == null || message.isBlank() || message.contains("MyBatisSystemException")
-                    || message.contains("PersistenceException")) {
-                message = "게시글 수정 중 오류가 발생했습니다.";
-            }
-            bindingResult.rejectValue("tags", "error.tags", message);
-            model.addAttribute("post", postService.findPostByNo(no));
-            return "post/post_edit_form";
-        }
-        return "redirect:/posts/" + no;
-    }
-
-    @PostMapping("/posts/{no}/delete")
-    public String deletePost(@PathVariable("no") Long no) {
+    // 게시글 삭제: DELETE /api/posts/{no}
+    @DeleteMapping("/{no}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long no) {
         postService.deletePost(no);
-        return "redirect:/posts";
+        return ResponseEntity.noContent().build();
     }
 }
