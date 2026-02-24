@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.vibeapp.post.PostRepository">
 
-    <insert id="save" parameterType="Post">
+    <insert id="save" parameterType="Post" useGeneratedKeys="true" keyProperty="no">
         MERGE INTO POSTS
         USING DUAL ON (NO = #{no})
         WHEN MATCHED THEN

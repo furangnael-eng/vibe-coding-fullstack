@@ -71,8 +71,9 @@ public class PostService {
             for (String tagName : tagArray) {
                 if (tagName != null && !tagName.trim().isBlank()) {
                     String trimmedName = tagName.trim();
+                    System.out.println("Processing tag: [" + trimmedName + "], length: " + trimmedName.length());
                     if (trimmedName.length() > 50) {
-                        throw new IllegalArgumentException("태그는 각각 50자 이내로 입력해야 합니다: " + trimmedName);
+                        throw new IllegalArgumentException("태그는 50자 이내로 입력해주세요.");
                     }
                     postTagRepository.insert(new PostTag(postNo, trimmedName));
                 }

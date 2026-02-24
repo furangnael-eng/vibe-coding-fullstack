@@ -62,8 +62,16 @@ public class PostController {
         }
         try {
             postService.addPost(createDto);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("tags", "error.tags", e.getMessage());
+        } catch (RuntimeException e) {
+            String message = e.getMessage();
+            if (message != null && (message.contains("JdbcSQLIntegrityConstraintViolationException")
+                    || message.contains("Value too long") || message.contains("50자 이내"))) {
+                message = "태그는 50자 이내로 입력해주세요.";
+            } else if (message == null || message.isBlank() || message.contains("MyBatisSystemException")
+                    || message.contains("PersistenceException")) {
+                message = "게시글 저장 중 오류가 발생했습니다.";
+            }
+            bindingResult.rejectValue("tags", "error.tags", message);
             return "post/post_new_form";
         }
         return "redirect:/posts";
@@ -78,8 +86,16 @@ public class PostController {
         }
         try {
             postService.updatePost(no, updateDto);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("tags", "error.tags", e.getMessage());
+        } catch (RuntimeException e) {
+            String message = e.getMessage();
+            if (message != null && (message.contains("JdbcSQLIntegrityConstraintViolationException")
+                    || message.contains("Value too long") || message.contains("50자 이내"))) {
+                message = "태그는 50자 이내로 입력해주세요.";
+            } else if (message == null || message.isBlank() || message.contains("MyBatisSystemException")
+                    || message.contains("PersistenceException")) {
+                message = "게시글 수정 중 오류가 발생했습니다.";
+            }
+            bindingResult.rejectValue("tags", "error.tags", message);
             model.addAttribute("post", postService.findPostByNo(no));
             return "post/post_edit_form";
         }
