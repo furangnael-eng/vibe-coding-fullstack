@@ -13,15 +13,11 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public List<Post> getPosts() {
-        return postRepository.findAll();
-    }
-
-    public Post getPost(Long no) {
+    public Post findPostByNo(Long no) {
         return postRepository.findById(no);
     }
 
-    public List<Post> getPagedPosts(int page, int size) {
+    public List<Post> findPagedPosts(int page, int size) {
         int offset = (page - 1) * size;
         return postRepository.findPaged(offset, size);
     }

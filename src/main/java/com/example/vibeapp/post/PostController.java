@@ -18,9 +18,9 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String list(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+    public String getPostList(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         int pageSize = 5;
-        List<Post> posts = postService.getPagedPosts(page, pageSize);
+        List<Post> posts = postService.findPagedPosts(page, pageSize);
         int totalPages = postService.getTotalPages(pageSize);
 
         model.addAttribute("posts", posts);
@@ -30,20 +30,20 @@ public class PostController {
     }
 
     @GetMapping("/posts/{no}")
-    public String detail(@PathVariable("no") Long no, Model model) {
-        Post post = postService.getPost(no);
+    public String getPostDetail(@PathVariable("no") Long no, Model model) {
+        Post post = postService.findPostByNo(no);
         model.addAttribute("post", post);
         return "post/post_detail";
     }
 
     @GetMapping("/posts/new")
-    public String postNewForm() {
+    public String showPostNewForm() {
         return "post/post_new_form";
     }
 
     @GetMapping("/posts/{no}/edit")
-    public String postEditForm(@PathVariable("no") Long no, Model model) {
-        Post post = postService.getPost(no);
+    public String showPostEditForm(@PathVariable("no") Long no, Model model) {
+        Post post = postService.findPostByNo(no);
         model.addAttribute("post", post);
         return "post/post_edit_form";
     }

@@ -33,10 +33,6 @@ public class PostRepository {
         posts.add(post);
     }
 
-    public List<Post> findAll() {
-        return new ArrayList<>(posts);
-    }
-
     public Post findById(Long no) {
         return posts.stream()
                 .filter(post -> post.getNo().equals(no))
