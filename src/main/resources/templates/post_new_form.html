@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Vibe Coding | 게시글 목록</title>
+    <title>Vibe Coding | 새 게시글 작성</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
         rel="stylesheet" />
@@ -63,55 +63,48 @@
         </div>
     </header>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    <main class="pt-32 pb-20 px-6 max-w-3xl mx-auto">
         <div class="mb-12">
-            <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em] mb-4">Board</h2>
-            <h3 class="text-4xl md:text-5xl font-bold text-slate-100 leading-tight">Post List</h3>
-            <p class="text-slate-400 mt-4 max-w-xl">최신 기술 동향과 Vibe Coding의 소식을 확인하세요.</p>
+            <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em] mb-4">New Post</h2>
+            <h3 class="text-4xl font-bold text-slate-100 leading-tight">새 게시글 작성</h3>
+            <p class="text-slate-400 mt-4">창의적인 아이디어를 Vibe Coding 커뮤니티와 공유하세요.</p>
         </div>
 
-        <div class="glass-card rounded-2xl overflow-hidden border border-primary/10 shadow-2xl">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-primary/10 border-b border-primary/20">
-                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">No</th>
-                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">Title</th>
-                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">Created At</th>
-                        <th class="p-6 text-primary font-bold uppercase tracking-wider text-sm">Views</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="post : ${posts}" class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                        <td class="p-6 text-slate-100 font-medium" th:text="${post.no}">1</td>
-                        <td class="p-6">
-                            <a th:href="@{/posts/{no}(no=${post.no})}"
-                                class="text-slate-100 hover:text-primary transition-colors font-semibold"
-                                th:text="${post.title}">Post Title</a>
-                        </td>
-                        <td class="p-6 text-slate-400" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">
-                            2024-02-23</td>
-                        <td class="p-6">
-                            <span
-                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/20 text-primary">
-                                <span class="material-symbols-outlined text-xs">visibility</span>
-                                <span th:text="${post.views}">100</span>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="glass-card rounded-2xl p-8 md:p-10 border border-primary/10 shadow-2xl">
+            <form th:action="@{/posts/add}" method="post" class="space-y-8">
+                <div>
+                    <label for="title"
+                        class="block text-sm font-bold text-primary uppercase tracking-wider mb-2">제목</label>
+                    <input type="text" id="title" name="title" required
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-slate-100 focus:outline-none focus:border-primary transition-colors"
+                        placeholder="게시글 제목을 입력하세요">
+                </div>
 
-        <div class="mt-8 flex justify-end">
-            <a href="/posts/new"
-                class="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">edit</span>
-                새 글
-            </a>
+                <div>
+                    <label for="content"
+                        class="block text-sm font-bold text-primary uppercase tracking-wider mb-2">내용</label>
+                    <textarea id="content" name="content" rows="10" required
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-slate-100 focus:outline-none focus:border-primary transition-colors resize-none"
+                        placeholder="내용을 상세히 입력하세요"></textarea>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="submit"
+                        class="flex-1 bg-primary hover:bg-primary/80 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">check</span>
+                        등록하기
+                    </button>
+                    <a href="/posts"
+                        class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 px-8 py-4 rounded-xl font-bold transition-all border border-white/10 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">close</span>
+                        취소
+                    </a>
+                </div>
+            </form>
         </div>
     </main>
 
-    <footer class="bg-background-dark border-t border-white/5 pt-10 pb-10">
+    <footer class="bg-background-dark border-t border-white/5 pt-10 pb-10 mt-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <p class="text-slate-500 text-sm">© 2024 Vibe Coding Agency. All rights reserved.</p>
         </div>
